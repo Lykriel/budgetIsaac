@@ -1,0 +1,89 @@
+###################
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+!prebuild/
+*.exe
+*.o
+*.so
+*.o.d
+
+############
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.rar
+*.tar
+*.zip
+
+######################
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+######################
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+*.swp
+*~.nib
+
+bin/
+build/
+!/cocos2d/build/
+
+#####################################
+# Personal files in the iOS project #
+#####################################
+*.mode1v3
+*.mode2v3
+
+xcuserdata
+
+*.mode*
+*.pbxuser
+*.perspective*
+
+!project.pbxproj
+
+######################################
+# Generated files in the iOS project #
+######################################
+proj.ios_mac/*.xcodeproj/project.xcworkspace/*
+
+##########################################
+# Generated files in the Android project #
+##########################################
+proj.android/libs/armeabi/*
+proj.android/libs/armeabi-v7a/*
+proj.android/obj/*
+
+proj.android/gen/*
+proj.android/bin/*
+proj.android/assets/*
+
+proj.android/local.properties
+
+cocos2d/cocos/platform/android/java/bin/*
+cocos2d/cocos/platform/android/java/gen/*
+cocos2d/cocos/platform/android/java/local.properties
+
+################################################################
+# Generated documentation, it can be regenerated using doxygen #
+################################################################
+docs/html/*
