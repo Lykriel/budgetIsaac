@@ -35,21 +35,68 @@ void GameChar::MoveChar(int DirX, int DirY)
 
 	Vector<SpriteFrame*> animFrames;
 	animFrames.reserve(3);
-	if (intDir > 0)
+	if (intDirUp != 0)
 	{
-		animFrames.pushBack(SpriteFrame::create("Blue_Right1.png", Rect(0, 0, 59, 81)));
-		animFrames.pushBack(SpriteFrame::create("Blue_Right2.png", Rect(0, 0, 59, 81)));
-		animFrames.pushBack(SpriteFrame::create("Blue_Right3.png", Rect(0, 0, 59, 81)));
+		if (intDirUp < 0)
+		{
+			animFrames.pushBack(SpriteFrame::create("Player_Front1.png", Rect(0, 0, 59, 81)));
+			animFrames.pushBack(SpriteFrame::create("Player_Front2.png", Rect(0, 0, 59, 81)));
+			animFrames.pushBack(SpriteFrame::create("Player_Front3.png", Rect(0, 0, 59, 81)));
+		}
+		else if (intDirUp > 0)
+		{
+			animFrames.pushBack(SpriteFrame::create("Player_Front1.png", Rect(0, 0, 59, 81)));
+			animFrames.pushBack(SpriteFrame::create("Player_Front2.png", Rect(0, 0, 59, 81)));
+			animFrames.pushBack(SpriteFrame::create("Player_Front3.png", Rect(0, 0, 59, 81)));
+		}
 	}
 	else
 	{
-		animFrames.pushBack(SpriteFrame::create("Blue_Left1.png", Rect(0, 0, 59, 81)));
-		animFrames.pushBack(SpriteFrame::create("Blue_Left2.png", Rect(0, 0, 59, 81)));
-		animFrames.pushBack(SpriteFrame::create("Blue_Left3.png", Rect(0, 0, 59, 81)));
+		if (intDir > 0 && intDirUp == 0)
+		{
+			animFrames.pushBack(SpriteFrame::create("Player_Side1.png", Rect(0, 0, 59, 81)));
+			animFrames.pushBack(SpriteFrame::create("Player_Side2.png", Rect(0, 0, 59, 81)));
+			animFrames.pushBack(SpriteFrame::create("Player_Side3.png", Rect(0, 0, 59, 81)));
+		}
+		else if (intDirUp == 0)
+		{
+			animFrames.pushBack(SpriteFrame::create("Player_Side1.png", Rect(0, 0, 59, 81)));
+			animFrames.pushBack(SpriteFrame::create("Player_Side2.png", Rect(0, 0, 59, 81)));
+			animFrames.pushBack(SpriteFrame::create("Player_Side3.png", Rect(0, 0, 59, 81)));
+		}
 	}
 	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.1f);
 	Animate* animate = Animate::create(animation);
 	mainSprite->runAction(RepeatForever::create(animate));
+}
+
+void GameChar::Stop(int a)
+{
+	if (a == 1)
+		intDir = 0;
+	else
+		intDirUp = 0;
+
+	mainSprite->stopAllActions();
+	// now lets animate the sprite we moved
+
+	//Vector < SpriteFrame* > animFrames;
+	//animFrames.reserve(4);
+	//if (intDir == 0)
+	//{
+	//	animFrames.pushBack(SpriteFrame::create("Blue_Front2.png", Rect(0, 0, 65, 81)));
+	//	animFrames.pushBack(SpriteFrame::create("Blue_Front1.png", Rect(0, 0, 65, 81)));
+	//	animFrames.pushBack(SpriteFrame::create("Blue_Front3.png", Rect(0, 0, 65, 81)));
+	//	animFrames.pushBack(SpriteFrame::create("Blue_Front1.png", Rect(0, 0, 65, 81)));
+	//}
+
+	//// create the animation out of the frames
+	//Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.5f);
+	//Animate* animateIdle = Animate::create(animation);
+
+	//// run it and repeat it forever
+	//mainSprite->runAction(RepeatForever::create(animateIdle));
+
 }
 
 void GameChar::MoveCharByCoord(float fX, float fY)
@@ -75,10 +122,10 @@ void GameChar::MoveCharByCoord(float fX, float fY)
 	
 	Vector<SpriteFrame*> animFrames;
 	animFrames.reserve(4);
-	animFrames.pushBack(SpriteFrame::create("Blue_Back2.png", Rect(0, 0, 65, 81)));
-	animFrames.pushBack(SpriteFrame::create("Blue_Back1.png", Rect(0, 0, 65, 81)));
-	animFrames.pushBack(SpriteFrame::create("Blue_Back3.png", Rect(0, 0, 65, 81)));
-	animFrames.pushBack(SpriteFrame::create("Blue_Back1.png", Rect(0, 0, 65, 81)));
+	animFrames.pushBack(SpriteFrame::create("Player_Front2.png", Rect(0, 0, 65, 81)));
+	animFrames.pushBack(SpriteFrame::create("Player_Front1.png", Rect(0, 0, 65, 81)));
+	animFrames.pushBack(SpriteFrame::create("Player_Front3.png", Rect(0, 0, 65, 81)));
+	animFrames.pushBack(SpriteFrame::create("Player_Front1.png", Rect(0, 0, 65, 81)));
 	
 	// create the animation out of the frames
 	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.5f);
@@ -110,31 +157,4 @@ void GameChar::Update(float delta)
 	mainSprite->setGLProgram(CharEffect);
 	mainSprite->setGLProgramState(state);
 	state->setUniformVec2("loc", mLoc);
-}
-
-void GameChar::Stop(void)
-{
-	intDir = 0;
-	intDirUp = 0;
-
-	mainSprite->stopAllActions();
-	// now lets animate the sprite we moved
-
-	Vector < SpriteFrame* > animFrames;
-	animFrames.reserve(4);
-	if (intDir == 0)
-	{
-		animFrames.pushBack(SpriteFrame::create("Blue_Front2.png", Rect(0, 0, 65, 81)));
-		animFrames.pushBack(SpriteFrame::create("Blue_Front1.png", Rect(0, 0, 65, 81)));
-		animFrames.pushBack(SpriteFrame::create("Blue_Front3.png", Rect(0, 0, 65, 81)));
-		animFrames.pushBack(SpriteFrame::create("Blue_Front1.png", Rect(0, 0, 65, 81)));
-	}
-
-	// create the animation out of the frames
-	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.5f);
-	Animate* animateIdle = Animate::create(animation);
-
-	// run it and repeat it forever
-	mainSprite->runAction(RepeatForever::create(animateIdle));
-
 }

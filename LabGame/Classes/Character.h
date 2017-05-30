@@ -19,7 +19,7 @@ public:
 	void MoveChar(int, int);
 	void MoveCharByCoord(float, float);
 	void Update(float);
-	void Stop(void);
+	void Stop(int);
 
 	cocos2d::Sprite* getSprite(void) { return mainSprite; }
 

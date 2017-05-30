@@ -6,7 +6,7 @@
 
 using namespace cocos2d;
 
-class HelloWorld : public cocos2d::Layer
+class HelloWorld : public cocos2d::CCLayerColor
 {
 public:
     static cocos2d::Scene* createScene();

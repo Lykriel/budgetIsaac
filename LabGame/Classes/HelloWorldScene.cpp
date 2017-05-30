@@ -1,6 +1,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "HelloWorldScene2.h"
+
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -31,6 +33,11 @@ bool HelloWorld::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	Size playingSize = Size(visibleSize.width, visibleSize.height - (visibleSize.height / 8));
+
+	if (!CCLayerColor::initWithColor(ccc4(0, 255, 255, 255))) //RGBA
+	{
+		return false;
+	}
 
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -98,7 +105,7 @@ bool HelloWorld::init()
 	nodeItems->setName("nodeItems");
 	//nodeItems->setPosition(50, 50);
 
-	auto sprite = Sprite::create("ZigzagGrass_Mud_Round.png");
+	auto sprite = Sprite::create("wall_1.png");
 	int sX = 0;
 	int sY = playingSize.height / 2;
 
@@ -106,9 +113,21 @@ bool HelloWorld::init()
 
 	for (int i = 0; i < howMany; i++)
 	{
-		auto sprite = Sprite::create("ZigzagGrass_Mud_Round.png");
+		auto sprite = Sprite::create("wall_1.png");
 		sprite->setAnchorPoint(Vec2::ZERO);
-		sprite->setPosition(sX, sY);
+		sprite->setPosition(sX, 0);
+		sX += sprite->getContentSize().width;
+
+		nodeItems->addChild(sprite, 0);
+	}
+
+	sX = 0;
+
+	for (int i = 0; i < howMany; i++)
+	{
+		auto sprite = Sprite::create("wall_1.png");
+		sprite->setAnchorPoint(Vec2::ZERO);
+		sprite->setPosition(sX, playingSize.height - sprite->getContentSize().height);
 		sX += sprite->getContentSize().width;
 
 		nodeItems->addChild(sprite, 0);
@@ -198,28 +217,28 @@ void HelloWorld::update(float delta)
 
 void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
-	if (keyCode == EventKeyboard::KeyCode::KEY_D)
+	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW)
 	{ 
 		mainChar.MoveChar(1, 0);
 		auto curSprite = this->getChildByName("spriteNode")->getChildByName("mainSprite");
 		//auto moveEvent = MoveBy::create(0.5f, Vec2(50.0f, 0.f));
 		//curSprite->runAction(moveEvent);
 	}
-	else if (keyCode == EventKeyboard::KeyCode::KEY_A)
+	else if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW)
 	{
 		mainChar.MoveChar(-1, 0);
 		auto curSprite = this->getChildByName("spriteNode")->getChildByName("mainSprite");
 		//auto moveEvent = MoveBy::create(0.5f, Vec2(-50.0f, 0.f));
 		//curSprite->runAction(moveEvent);
 	}
-	else if (keyCode == EventKeyboard::KeyCode::KEY_W)
+	else if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW)
 	{
 		mainChar.MoveChar(0, 1);
 		auto curSprite = this->getChildByName("spriteNode")->getChildByName("mainSprite");
 		//auto moveEvent = MoveBy::create(0.5f, Vec2(-50.0f, 0.f));
 		//curSprite->runAction(moveEvent);
 	}
-	else if (keyCode == EventKeyboard::KeyCode::KEY_S)
+	else if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW)
 	{
 		mainChar.MoveChar(0, -1);
 		auto curSprite = this->getChildByName("spriteNode")->getChildByName("mainSprite");
@@ -228,37 +247,65 @@ void HelloWorld::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 	else if (keyCode == EventKeyboard::KeyCode::KEY_SPACE)
 	{
-		CCDirector::getInstance()->replaceScene(TransitionFade::create(1.5, HelloWorld::createScene(), Color3B(0, 255, 255)));
+		CCDirector::getInstance()->replaceScene(TransitionFade::create(1.5, HelloWorld2::createScene(), Color3B(0, 255, 255)));
 	}
 }
 
 void HelloWorld::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
+
 {
-	if (keyCode == EventKeyboard::KeyCode::KEY_D)
+
+	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW)
+
 	{
-		//auto curSprite = this->getChildByName("spriteNode")->getChildByName("mainSprite");
-		//auto moveEvent = MoveBy::create(0.5f, Vec2(50.0f, 0.f));
-		//curSprite->runAction(moveEvent);
+
+		/*auto curSprite = this->getChildByName("spriteNode")->getChildByName("mainSprite");
+
+		auto moveEvent = MoveBy::create(0.5f, Vec2(50.0f, 0.f));
+
+		curSprite->runAction(moveEvent);*/
 		mainChar.MoveChar(-1, 0);
-		mainChar.Stop();
+
+		mainChar.Stop(1);
+
 	}
-	else if (keyCode == EventKeyboard::KeyCode::KEY_A)
+
+	else if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW)
+
 	{
-		//auto curSprite = this->getChildByName("spriteNode")->getChildByName("mainSprite");
-		//auto moveEvent = MoveBy::create(0.5f, Vec2(-50.0f, 0.f));
-		//curSprite->runAction(moveEvent);
+
+		/*auto curSprite = this->getChildByName("spriteNode")->getChildByName("mainSprite");
+
+		auto moveEvent = MoveBy::create(0.5f, Vec2(-50.0f, 0.f));
+
+		curSprite->runAction(moveEvent);*/
+
 		mainChar.MoveChar(1, 0);
-		mainChar.Stop();
+
+
+		mainChar.Stop(1);
+
 	}
-	else if (keyCode == EventKeyboard::KeyCode::KEY_W)
+
+
+	else if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW)
+
 	{
+
 		mainChar.MoveChar(0, -1);
-		mainChar.Stop();
+
+		mainChar.Stop(0);
+
 	}
-	else if (keyCode == EventKeyboard::KeyCode::KEY_S)
+
+	else if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW)
+
 	{
+
 		mainChar.MoveChar(0, 1);
-		mainChar.Stop();
+
+		mainChar.Stop(0);
+
 	}
 }
 
